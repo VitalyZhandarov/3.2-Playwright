@@ -5,11 +5,11 @@ test("Valid Authorization", async ({ page }) => {
   await page.goto("https://netology.ru/?modal=sign_in");
   await page.getByPlaceholder('Email').fill(email);
   await page.getByPlaceholder('Пароль').fill(password);
+  await page.screenshot({ path: './screenshots/validAutorization1.png' });
   await page.getByTestId('login-submit-btn').click();
-
   await expect(page).toHaveURL("https://netology.ru/profile/8444009");
-
   await page.waitForSelector("h2");
+  await page.screenshot({ path: './screenshots/validAutorization2.png' });
 
   const title = await page.$eval("h2", (element) => element.textContent);
 
@@ -17,10 +17,12 @@ test("Valid Authorization", async ({ page }) => {
 });
 
 test("Not Valid Authorization", async ({ page }) => {
-  await page.goto("https://netology.ru/?modal=sign_in");
+  await page.goto("https://netology.ru/?modal=sign_in");  
   await page.getByPlaceholder('Email').fill("fara@yandex.ru");
   await page.getByPlaceholder('Пароль').fill("qwerty123");
-  await page.getByTestId('login-submit-btn').click();
+  await page.screenshot({ path: './screenshots/notValidAutorization1.png' });
+  await page.getByTestId('login-submit-btn').click();  
 
   await expect(page.locator("data-testid=login-error-hint")).toContainText("Вы ввели неправильно логин или пароль");
+  await page.screenshot({ path: './screenshots/notValidAutorization2.png' });
 });
